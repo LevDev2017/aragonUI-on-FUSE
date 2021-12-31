@@ -245,7 +245,11 @@ export function getWeb3(provider) {
 export function getWeb3Provider(networkType) {
   const host = getEthNode(networkType)
   const options = getOptions(networkType)
+  console.log('!!!!!!!!!!!' + networkType + '!!!!!!!!!!!!!!!!!' + host + '!!!!!!!!')
 
+  if(networkType == 'fuse') {
+    return new Web3.providers.HttpProvider(host)
+  }
   if (!options) {
     return new Web3.providers.WebsocketProvider(host)
   }

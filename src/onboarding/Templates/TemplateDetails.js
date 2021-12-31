@@ -56,6 +56,8 @@ function TemplateDetails({ template, visible, onUse, onClose }) {
     return width - 4 * GU
   }, [above, width])
 
+  console.log('#########' + template.icon);
+
   if (template === null) {
     return null
   }

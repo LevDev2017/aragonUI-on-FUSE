@@ -96,7 +96,6 @@ function AccountModule() {
 
   const screen = SCREENS[screenIndex]
   const screenId = screen.id
-  console.log('&&&&&&&&&' + screenId + '&&&&&&&&&&');
 
   const handlePopoverClose = useCallback(() => {
     if (screenId === SCREEN_ID.connecting || screenId === SCREEN_ID.error) {
@@ -220,8 +219,6 @@ function useConnectionInfo() {
   // console.log(walletListening + '!!!!!!!!' + walletOnline + '!!!!!!!!!!' + walletConnectionStatus + '!!!!!!!!!!' + walletSyncDelay)
 
   const { walletNetworkName, isWrongNetwork } = useNetworkConnectionData()
-
-  console.log(walletNetworkName + '###########' + isWrongNetwork)
 
   const { connectionMessage, connectionColor } = useWalletConnectionDetails(
     clientListening,

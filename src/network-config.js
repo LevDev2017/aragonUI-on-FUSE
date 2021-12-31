@@ -16,12 +16,12 @@ export const networkConfigs = {
     isActive: true,
     addresses: {
       ensRegistry:
-        localEnsRegistryAddress || '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',  //FIXME
+        localEnsRegistryAddress || '0x88dEb9968D66fb88418FA4a531ADbeDeCaB107C3',  //FIXME
       dai: DAI_MAINNET_TOKEN_ADDRESS,
       governExecutorProxy: null,
     },
     nodes: {
-      defaultEth: 'wss://mainnet.eth.aragon.network/ws',
+      defaultEth: 'https://rpc.fuse.io',
     },
     connectGraphEndpoint:
       null,

@@ -35,9 +35,7 @@ const BLOCK_TIMESTAMP_POLL_INTERVAL = 60000
 
 export function useNetworkConnectionData() {
   const { networkType, status, error } = useWallet()
-
-  console.log(networkType + '(((((((((' + status + '((((((((((' + error)
-
+  
   const isWrongNetwork = useMemo(() => {
     return (
       status === WALLET_STATUS.error && error instanceof ChainUnsupportedError
