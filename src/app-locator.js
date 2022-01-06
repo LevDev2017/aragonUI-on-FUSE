@@ -35,6 +35,10 @@ function getAppId(app) {
     return namehash(app)
   }
 
+  if (app.endsWith('.fuse')) {
+    return namehash(app)
+  }
+
   // probably a valid app ID
   if (app.startsWith('0x') && app.length === 66) {
     return app

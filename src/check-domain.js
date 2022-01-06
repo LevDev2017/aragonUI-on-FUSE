@@ -9,7 +9,7 @@ const DOMAIN_ERROR = Symbol('DOMAIN_ERROR')
 const DOMAIN_NONE = Symbol('DOMAIN_NONE')
 
 function completeDomain(domain) {
-  return domain.endsWith('.fuse') ? domain : `${domain}.fuse`
+  return domain.endsWith('.eth') ? domain : `${domain}.aragonid.eth`
 }
 
 function useCheckDomain(domain, invertCheck = false) {

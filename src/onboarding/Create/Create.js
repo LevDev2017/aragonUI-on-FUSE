@@ -226,28 +226,249 @@ function useTemplateRepoInformation(templateRepoAddress, setError) {
     const fetchArtifact = (depth = 0) => {
       const ipfsGateway = getIpfsGateway()
       const web3 = web3Provider.getProvider(networkType)
-      fetchApmArtifact(web3, templateRepoAddress, ipfsGateway)
-        .then(templateInfo => {
-          if (!cancelled) {
-            log(`fetched template abi for ${templateRepoAddress}`)
-            setTemplateAddress(templateInfo.contractAddress)
-            setTemplateAbi(templateInfo.abi)
-            setFetchingTemplateInformation(false)
+      if(networkType == 'fuse') {
+        setTemplateAddress('0x1d9e84bf330D14993F8D8A6fd21E791dfb7F6e78')
+        setTemplateAbi([
+          {
+              "inputs": [
+                  {
+                      "name": "_daoFactory",
+                      "type": "address"
+                  },
+                  {
+                      "name": "_ens",
+                      "type": "address"
+                  },
+                  {
+                      "name": "_miniMeFactory",
+                      "type": "address"
+                  },
+                  {
+                      "name": "_aragonID",
+                      "type": "address"
+                  }
+              ],
+              "payable": false,
+              "stateMutability": "nonpayable",
+              "type": "constructor"
+          },
+          {
+              "anonymous": false,
+              "inputs": [
+                  {
+                      "indexed": false,
+                      "name": "dao",
+                      "type": "address"
+                  }
+              ],
+              "name": "DeployDao",
+              "type": "event"
+          },
+          {
+              "anonymous": false,
+              "inputs": [
+                  {
+                      "indexed": false,
+                      "name": "dao",
+                      "type": "address"
+                  }
+              ],
+              "name": "SetupDao",
+              "type": "event"
+          },
+          {
+              "anonymous": false,
+              "inputs": [
+                  {
+                      "indexed": false,
+                      "name": "token",
+                      "type": "address"
+                  }
+              ],
+              "name": "DeployToken",
+              "type": "event"
+          },
+          {
+              "anonymous": false,
+              "inputs": [
+                  {
+                      "indexed": false,
+                      "name": "appProxy",
+                      "type": "address"
+                  },
+                  {
+                      "indexed": false,
+                      "name": "appId",
+                      "type": "bytes32"
+                  }
+              ],
+              "name": "InstalledApp",
+              "type": "event"
+          },
+          {
+              "constant": false,
+              "inputs": [
+                  {
+                      "name": "_tokenName",
+                      "type": "string"
+                  },
+                  {
+                      "name": "_tokenSymbol",
+                      "type": "string"
+                  },
+                  {
+                      "name": "_id",
+                      "type": "string"
+                  },
+                  {
+                      "name": "_holders",
+                      "type": "address[]"
+                  },
+                  {
+                      "name": "_stakes",
+                      "type": "uint256[]"
+                  },
+                  {
+                      "name": "_votingSettings",
+                      "type": "uint64[3]"
+                  },
+                  {
+                      "name": "_financePeriod",
+                      "type": "uint64"
+                  },
+                  {
+                      "name": "_useAgentAsVault",
+                      "type": "bool"
+                  }
+              ],
+              "name": "newTokenAndInstance",
+              "outputs": [],
+              "payable": false,
+              "stateMutability": "nonpayable",
+              "type": "function"
+          },
+          {
+              "constant": false,
+              "inputs": [
+                  {
+                      "name": "_name",
+                      "type": "string"
+                  },
+                  {
+                      "name": "_symbol",
+                      "type": "string"
+                  }
+              ],
+              "name": "newToken",
+              "outputs": [
+                  {
+                      "name": "",
+                      "type": "address"
+                  }
+              ],
+              "payable": false,
+              "stateMutability": "nonpayable",
+              "type": "function"
+          },
+          {
+              "constant": false,
+              "inputs": [
+                  {
+                      "name": "_id",
+                      "type": "string"
+                  },
+                  {
+                      "name": "_holders",
+                      "type": "address[]"
+                  },
+                  {
+                      "name": "_stakes",
+                      "type": "uint256[]"
+                  },
+                  {
+                      "name": "_votingSettings",
+                      "type": "uint64[3]"
+                  },
+                  {
+                      "name": "_financePeriod",
+                      "type": "uint64"
+                  },
+                  {
+                      "name": "_useAgentAsVault",
+                      "type": "bool"
+                  }
+              ],
+              "name": "newInstance",
+              "outputs": [],
+              "payable": false,
+              "stateMutability": "nonpayable",
+              "type": "function"
+          },
+          {
+              "constant": false,
+              "inputs": [
+                  {
+                      "name": "_id",
+                      "type": "string"
+                  },
+                  {
+                      "name": "_holders",
+                      "type": "address[]"
+                  },
+                  {
+                      "name": "_stakes",
+                      "type": "uint256[]"
+                  },
+                  {
+                      "name": "_votingSettings",
+                      "type": "uint64[3]"
+                  },
+                  {
+                      "name": "_financePeriod",
+                      "type": "uint64"
+                  },
+                  {
+                      "name": "_useAgentAsVault",
+                      "type": "bool"
+                  },
+                  {
+                      "name": "_payrollSettings",
+                      "type": "uint256[4]"
+                  }
+              ],
+              "name": "newInstance",
+              "outputs": [],
+              "payable": false,
+              "stateMutability": "nonpayable",
+              "type": "function"
           }
-          return null
-        })
-        .catch(err => {
-          // Continuously re-request until this component gets unmounted or the template changes
-          // add exponential backoff to avoid freezing up the site
-          if (!cancelled) {
-            if (depth > MAX_RETRY) {
-              setError(createError(ERROR_TEMPLATE, err.message))
-            } else {
-              const timeoutMs = 2 ** depth * 10
-              timer = setTimeout(() => fetchArtifact(depth + 1), timeoutMs)
+        ])
+        setFetchingTemplateInformation(false)
+        return null
+      } else{
+        fetchApmArtifact(web3, templateRepoAddress, ipfsGateway)
+          .then(templateInfo => {
+            if (!cancelled) {
+              log(`fetched template abi for ${templateRepoAddress}`)
+              setTemplateAddress(templateInfo.contractAddress)
+              setTemplateAbi(templateInfo.abi)
+              setFetchingTemplateInformation(false)
             }
-          }
-        })
+            return null
+          })
+          .catch(err => {
+            // Continuously re-request until this component gets unmounted or the template changes
+            // add exponential backoff to avoid freezing up the site
+            if (!cancelled) {
+              if (depth > MAX_RETRY) {
+                setError(createError(ERROR_TEMPLATE, err.message))
+              } else {
+                const timeoutMs = 2 ** depth * 10
+                timer = setTimeout(() => fetchArtifact(depth + 1), timeoutMs)
+              }
+            }
+          })
+      }
     }
 
     fetchArtifact()
@@ -496,7 +717,7 @@ const Create = React.memo(function Create({
 
   const applyEstimateGas = useCallback(
     async transaction => {
-      const estimatedGas = await web3.eth.estimateGas(transaction)
+      const estimatedGas = 9000000//await web3.eth.estimateGas(transaction)
       const recommendedLimit = await getRecommendedGasLimit(
         web3,
         estimatedGas,
